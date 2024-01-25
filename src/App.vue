@@ -1,36 +1,44 @@
-<!-- <script setup>
-import { ref } from "vue";
-const titleClass = ref("title");
-</script> -->
-
+<!-- < Options > -->
 <script>
 export default {
   data() {
-    return {
-      titleClass: "title",
-    };
+    return { count: 0 };
+  },
+  methods: {
+    increment() {
+      this.count++;
+    },
   },
 };
 </script>
 
+<!-- < Composition > -->
+<!-- <script setup>
+import { ref } from "vue";
+
+const count = ref(0);
+
+function increment() {
+  count.value++;
+}
+</script> -->
+
 <template>
-  <h1 :class="titleClass">나를 빨갛게 만들어보세요.</h1>
+  <button @click="increment">숫자 세기 {{ count }}</button>
 </template>
 
-<style>
-.title {
-  color: red;
-}
-</style>
+<style></style>
 
 <!-- 
-[속성 바인딩]
-Vue에서 이중 중괄호는 텍스트 삽입에만 사용됩니다.
-속성을 동적 값에 바인딩하려면 v-bind 디렉티브를 사용합니다.
+[이벤트 리스너]
+v-on 디렉티브를 사용하여 DOM 이벤트를 수신할 수 있습니다.
+<button v-on:click="increment">{{ count }}</button>
 
-<div v-bind:id="dynamicId"></div>
+자주 사용되기 때문에 v-on에는 다음과 같은 단축 문법도 있습니다.
+<button @click="increment">{{ count }}</button>
 
-디렉티브는 v- 접두사로 시작하는 특수한 속성으로 Vue 템플릿 문법의 일부입니다.
-텍스트 삽입과 유사하게 디렉티브 값은 컴포넌트의 상태에 접근할 수 있는 JavaScript 표현식입니다.
+함수 내에서 ref 값을 변경하여 컴포넌트 상태를 업데이트 할 수 있습니다.
+이벤트 핸들러는 인라인 표현식을 사용할 수도 있으며, 수식어를 사용하여 일반적인 작업을 단순화할 수 있습니다.
+참고 : https://ko.vuejs.org/guide/essentials/event-handling
 
  -->
