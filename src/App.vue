@@ -2,12 +2,7 @@
 <script>
 export default {
   data() {
-    return { count: 0 };
-  },
-  methods: {
-    increment() {
-      this.count++;
-    },
+    return { text: "" };
   },
 };
 </script>
@@ -16,29 +11,30 @@ export default {
 <!-- <script setup>
 import { ref } from "vue";
 
-const count = ref(0);
-
-function increment() {
-  count.value++;
-}
+const text = ref("");
 </script> -->
 
 <template>
-  <button @click="increment">숫자 세기 {{ count }}</button>
+  <input v-model="text" placeholder="여기에 입력하기" />
+  <!-- <input :value="text" @input="onInput" placeholder="여기에 입력하기" /> -->
+  <p>{{ text }}</p>
 </template>
 
-<style></style>
-
 <!-- 
-[이벤트 리스너]
-v-on 디렉티브를 사용하여 DOM 이벤트를 수신할 수 있습니다.
-<button v-on:click="increment">{{ count }}</button>
+폼(form) 바인딩
 
-자주 사용되기 때문에 v-on에는 다음과 같은 단축 문법도 있습니다.
-<button @click="increment">{{ count }}</button>
+v-bind와 v-on을 함께 사용하면, 폼 안의 입력 엘리먼트에 양방향 바인딩을 만들 수 있습니다.
+<input :value="text" @input="onInput" />
 
-함수 내에서 ref 값을 변경하여 컴포넌트 상태를 업데이트 할 수 있습니다.
-이벤트 핸들러는 인라인 표현식을 사용할 수도 있으며, 수식어를 사용하여 일반적인 작업을 단순화할 수 있습니다.
-참고 : https://ko.vuejs.org/guide/essentials/event-handling
+function onInput(event) {
+  // v-on 핸들러는 네이티브 DOM 이벤트를 인자로 받는다.
+  text.value = e.target.value;
+}
 
+Vue는 양방향 바인딩을 간소화하기 위해, v-model이라는 디렉티브를 제공합니다.
+이것은 위 내용에 대한 단축 표기법입니다.
+<input v-model="text"/>
+
+v-model은 <input>의 값을 바인딩된 상태와 자동으로 동기화하므로, 더 이상 이에 대한 이벤트 핸들러를 사용할 필요가 없습니다.
+참고 : https://ko.vuejs.org/guide/essentials/forms
  -->
