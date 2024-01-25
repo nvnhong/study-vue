@@ -2,7 +2,12 @@
 <script>
 export default {
   data() {
-    return { text: "" };
+    return { awesome: true };
+  },
+  methods: {
+    toggle() {
+      this.awesome = !this.awesome;
+    },
   },
 };
 </script>
@@ -11,30 +16,31 @@ export default {
 <!-- <script setup>
 import { ref } from "vue";
 
-const text = ref("");
+const awesome = ref(true);
+
+function toggle() {
+  awesome.value = !awesome.value;
+}
 </script> -->
 
 <template>
-  <input v-model="text" placeholder="여기에 입력하기" />
-  <!-- <input :value="text" @input="onInput" placeholder="여기에 입력하기" /> -->
-  <p>{{ text }}</p>
+  <button @click="toggle">토글 버튼</button>
+  <h1 v-if="awesome">Vue는 굉장해! 엄청나!</h1>
+  <h1 v-else>오 안돼 😢</h1>
 </template>
 
 <!-- 
-폼(form) 바인딩
+[ 조건부 렌더링 ]
 
-v-bind와 v-on을 함께 사용하면, 폼 안의 입력 엘리먼트에 양방향 바인딩을 만들 수 있습니다.
-<input :value="text" @input="onInput" />
+엘리먼트를 조건부로 렌더링하기 위해 v-if 디렉티브를 사용할 수 있습니다.
+<h1 v-if="awesome">Vue는 굉장해! 엄청나!</h1>
 
-function onInput(event) {
-  // v-on 핸들러는 네이티브 DOM 이벤트를 인자로 받는다.
-  text.value = e.target.value;
-}
+이 <h1>은 awesome의 값이 truthy인 경우에만 렌더링됩니다.
+awesome이 falsy 값으로 변경되면 DOM에서 제거됩니다.
 
-Vue는 양방향 바인딩을 간소화하기 위해, v-model이라는 디렉티브를 제공합니다.
-이것은 위 내용에 대한 단축 표기법입니다.
-<input v-model="text"/>
+또한 v-else 및 v-else-if를 사용하여 조건의 다른 분기를 나타낼 수도 있습니다.
+<h1 v-if="awesome">Vue는 굉장해! 엄청나!</h1>
+<h1 v-else>오 안돼 😢</h1>
 
-v-model은 <input>의 값을 바인딩된 상태와 자동으로 동기화하므로, 더 이상 이에 대한 이벤트 핸들러를 사용할 필요가 없습니다.
-참고 : https://ko.vuejs.org/guide/essentials/forms
+참고 : https://ko.vuejs.org/guide/essentials/conditional
  -->
