@@ -1,46 +1,81 @@
-<!-- < Options > -->
+<!-- Options -->
 <script>
+// 각 할 일에 고유한 id 부여
+let id = 0;
+
 export default {
   data() {
-    return { awesome: true };
+    return {
+      id: 0,
+      newTodo: "",
+      todos: [
+        { id: id++, text: "HTML 배우기" },
+        { id: id++, text: "CSS 배우기" },
+        { id: id++, text: "JavaScript 배우기" },
+      ],
+    };
   },
   methods: {
-    toggle() {
-      this.awesome = !this.awesome;
+    addTodo() {
+      this.todos.push({ id: id++, text: this.newTodo });
+      this.newTodo = "";
+    },
+    removeTodo(todo) {
+      this.todos = this.todos.filter((value) => todo !== value);
     },
   },
 };
 </script>
 
-<!-- < Composition > -->
+<!-- Composition -->
 <!-- <script setup>
 import { ref } from "vue";
 
-const awesome = ref(true);
+// 각 할 일에 고유한 id 부여
+let id = 0;
 
-function toggle() {
-  awesome.value = !awesome.value;
+const newTodo = ref("");
+const todos = ref([
+  { id: id++, text: "HTML 배우기" },
+  { id: id++, text: "CSS 배우기" },
+  { id: id++, text: "JavaScript 배우기" },
+]);
+
+function addTodo() {
+  todos.value.push({ id: id++, text: newTodo.value });
+  newTodo.value = "";
+}
+
+function removeTodo(todo) {
+  todos.value = todos.value.filter((value) => todo !== value);
 }
 </script> -->
 
 <template>
-  <button @click="toggle">토글 버튼</button>
-  <h1 v-if="awesome">Vue는 굉장해! 엄청나!</h1>
-  <h1 v-else>오 안돼 😢</h1>
+  <form @submit.prevent="addTodo">
+    <input v-model="newTodo" />
+    <button>할 일 추가</button>
+  </form>
+
+  <ul>
+    <li v-for="todo in todos" :key="todo.id">
+      {{ todo.text }}
+      <button @click="removeTodo(todo)">삭제</button>
+    </li>
+  </ul>
 </template>
 
 <!-- 
-[ 조건부 렌더링 ]
+[ 리스트 렌더링 ]
 
-엘리먼트를 조건부로 렌더링하기 위해 v-if 디렉티브를 사용할 수 있습니다.
-<h1 v-if="awesome">Vue는 굉장해! 엄청나!</h1>
+v-for 디렉티브를 사용하여 자료 배열을 엘리먼트 목록으로 렌더링할 수 있습니다.
+<ul>
+  <li v-for="todo in todos" :key="todo.id">{{ todo.text }}</li>
+</ul>
 
-이 <h1>은 awesome의 값이 truthy인 경우에만 렌더링됩니다.
-awesome이 falsy 값으로 변경되면 DOM에서 제거됩니다.
+여기서 todo는 현재 반복 중인 배열 엘리먼트를 나타내는 로컬 변수입니다.
+함수 범위와 유사하게 v-for 엘리먼트 위 또는 내부에서만 액세스할 수 있습니다.
 
-또한 v-else 및 v-else-if를 사용하여 조건의 다른 분기를 나타낼 수도 있습니다.
-<h1 v-if="awesome">Vue는 굉장해! 엄청나!</h1>
-<h1 v-else>오 안돼 😢</h1>
-
-참고 : https://ko.vuejs.org/guide/essentials/conditional
+각 todo 객체에 고유한 id를 부여하고, 각 <li>에 특별한 속성인 key를 바인딩했습니다.
+key를 사용하면 Vue가 각 <li>를 정확하게 이동시켜 배열에서 해당 객체의 위치와 일치하도록 할 수 있습니다.
  -->
