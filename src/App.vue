@@ -1,14 +1,16 @@
 <template>
-  <ChildComp :msg="greeting" />
+  <ChildComp @response="(msg) => (childMsg = msg)" />
+  <p>{{ childMsg }}</p>
 </template>
 
 <!-- < Options > -->
 <script>
 import ChildComp from "./ChildComp.vue";
+
 export default {
   components: { ChildComp },
   data() {
-    return { greeting: "부모 컴포넌트로부터 💌을 전달받았어요!" };
+    return { childMsg: "자식 컴포넌트로부터 아직 메시지를 받지 못했어요!" };
   },
 };
 </script>
@@ -18,33 +20,35 @@ export default {
 import { ref } from "vue";
 import ChildComp from "./ChildComp.vue";
 
-const greeting = ref("부모 컴포넌트로부터 💌을 전달받았어요!");
+const childMsg = ref("자식 컴포넌트로부터 아직 메시지를 받지 못했어요!");
 </script> -->
 
 <!-- 
-[Props]
-자식 컴포넌트는 props를 통해 부모로부터 데이터를 받을 수 있습니다.
-우선, 허용할 props를 선언해야 합니다.
+[Emit]
 
-< ChildComp.vue >
+자식 컴포넌트는 부모로부터 props를 받는 것 뿐만 아니라 이벤트를 emit(발송)할 수도 있습니다.
 1. Options
 <script>
-export default {
-  props: {msg: String}
-}
+  export default {
+    emits:['response'],
+    created() {
+      this.$emit('response', '자식 컴포넌트로부터 🌷를 받았어요!)
+    }
+  }
 </script>
 
 2. Composition
 <script setup>
-  const props = defineProps({msg: String})
+  // emit할 이벤트 선언
+  const emit = defineEmits(['response']);
+
+  // 인자와 함께 emit
+  emit('response', '자식 컴포넌트로부터 🌷를 받았어요!');
 </script>
 
-참고로 defineProps()는 컴파일 타임 매크로이므로 import 할 필요가 없습니다.
-일단 선언되면 msg prop은 자식 컴포넌트 템플릿에서 사용할 수 있습니다.
-또한 defineProps()에서 반환된 객체는 JavaScript에서 접근할 수 있습니다.
+emit()의 첫 번째 인자는 이벤트 이름입니다. 이후 추가되는 모든 인자는 이벤트 리스너에 전달됩니다.
 
-부모는 속성을 사용하는 것처럼 자식에게 prop을 전달할 수 있습니다.
-동적 값을 전달하기 위해 v-bind 문법을 사용할 수도 있습니다.
-
-< ChildComp :msg="greeting"/>
+부모는 v-on을 사용하여 자식이 발송한 이벤트를 수신할 수 있습니다.
+아래 예제 코드는 자식이 이벤트를 발송할 때 추가한 인자를 핸들러에서 받아 로컬 상태에 할당한 것입니다.
+<ChildComp @response="(msg) => childMsg = msg"/>
  -->
