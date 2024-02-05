@@ -1,3 +1,15 @@
 <template>
-  <h2>자식 컴포넌트입니다.</h2>
+  <h2>{{ msg || "prop이 아직 전달되지 않았습니다." }}</h2>
 </template>
+
+<!-- Options -->
+<script>
+export default {
+  props: { msg: String },
+};
+</script>
+
+<!-- < Composition > -->
+<!-- <script setup>
+const props = defineProps({ msg: String });
+</script> -->
