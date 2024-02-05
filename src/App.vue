@@ -1,54 +1,40 @@
 <template>
-  <ChildComp @response="(msg) => (childMsg = msg)" />
-  <p>{{ childMsg }}</p>
+  <ChildComp />
+
+  <ChildComp>
+    {{ msg }}
+  </ChildComp>
 </template>
 
 <!-- < Options > -->
 <script>
 import ChildComp from "./ChildComp.vue";
-
 export default {
   components: { ChildComp },
   data() {
-    return { childMsg: "자식 컴포넌트로부터 아직 메시지를 받지 못했어요!" };
+    return { msg: "Vue는 개발자에게 정말 유용하죠! 🎁" };
   },
 };
 </script>
 
 <!-- < Composition > -->
 <!-- <script setup>
-import { ref } from "vue";
 import ChildComp from "./ChildComp.vue";
+import { ref } from "vue";
 
-const childMsg = ref("자식 컴포넌트로부터 아직 메시지를 받지 못했어요!");
+const msg = ref("Vue는 개발자에게 정말 유용하죠! 🎁");
 </script> -->
 
 <!-- 
-[Emit]
+[슬롯]
+부모 컴포넌트는 자식에게 props를 사용하여 데이터를 전달하는 것 외에도, 슬롯을 사용하여 템플릿 조각을 전달할 수 있습니다.
+<ChildComp>
+  이것은 슬롯 컨텐츠입니다!
+</ChildComp>
 
-자식 컴포넌트는 부모로부터 props를 받는 것 뿐만 아니라 이벤트를 emit(발송)할 수도 있습니다.
-1. Options
-<script>
-  export default {
-    emits:['response'],
-    created() {
-      this.$emit('response', '자식 컴포넌트로부터 🌷를 받았어요!)
-    }
-  }
-</script>
+자식 컴포넌트가 <slot> 엘리먼트를 "발산 수단(outlet: 가이드에서 '아울렛'으로 표기됨)"으로 사용하면, 부모에게 전달 받은 슬롯 컨텐츠를 렌더링할 수 있습니다.
+<slot/>
 
-2. Composition
-<script setup>
-  // emit할 이벤트 선언
-  const emit = defineEmits(['response']);
-
-  // 인자와 함께 emit
-  emit('response', '자식 컴포넌트로부터 🌷를 받았어요!');
-</script>
-
-emit()의 첫 번째 인자는 이벤트 이름입니다. 이후 추가되는 모든 인자는 이벤트 리스너에 전달됩니다.
-
-부모는 v-on을 사용하여 자식이 발송한 이벤트를 수신할 수 있습니다.
-아래 예제 코드는 자식이 이벤트를 발송할 때 추가한 인자를 핸들러에서 받아 로컬 상태에 할당한 것입니다.
-<ChildComp @response="(msg) => childMsg = msg"/>
+<slot> 아울렛 내부 컨텐츠는 "대체" 컨텐츠로 처리될 수 있는데, 부모가 슬롯 컨텐츠를 전달하지 않은 경우에 표시됩니다.
+<slot>대체: 부모로부터 컨텐츠를 못 받았어요! 😢</slot>
  -->

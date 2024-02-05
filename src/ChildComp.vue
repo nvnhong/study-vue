@@ -1,19 +1,3 @@
 <template>
-  <h2>자식 컴포넌트</h2>
+  <slot>대체: 부모로부터 컨텐츠를 못 받았어요! 😢</slot>
 </template>
-
-<!-- < Options > -->
-<script>
-export default {
-  emits: ["response"],
-  created() {
-    this.$emit("response", "자식 컴포넌트로부터 🌷를 받았어요!");
-  },
-};
-</script>
-
-<!-- < Composition > -->
-<!-- <script setup>
-const emit = defineEmits(["response"]);
-emit("response", "자식 컴포넌트로부터 🌷를 받았어요!");
-</script> -->
