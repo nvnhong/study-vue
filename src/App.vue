@@ -1,16 +1,42 @@
 <!--
-Say Hello World with Vue!
+This example demonstrates handling user input with the v-on directive.
 -->
 
 <template>
+  <!-- 
+    [Note] we don't need .value inside templates
+    because refs are automatically 'unwrapped' in the template.
+  -->
   <h1>{{ message }}</h1>
+
+  <!-- Bind to a method/function. The @click syntax is short for v-on:click -->
+  <button @click="reverseMessage">Reverse Message</button>
+  <button @click="message += '!'">Append "!"</button>
+
+  <!-- 
+    Vue also provides modifiers for common tasks 
+    such as e.preventDefault() and e.stopPropagation().
+  -->
+  <a href="https://vuejs.org" @click.prevent="notify"
+    >A link with e.preventDefault()</a
+  >
 </template>
 
 <!-- < Options > -->
 <script>
 export default {
   data() {
-    return { message: "Hello world" };
+    return {
+      message: "Hello, World!",
+    };
+  },
+  methods: {
+    reverseMessage() {
+      this.message = this.message.split("").reverse().join("");
+    },
+    notify() {
+      alert("navigation was prevented.");
+    },
   },
 };
 </script>
@@ -19,16 +45,21 @@ export default {
 <!-- <script setup>
 import { ref } from "vue";
 
-const message = ref("Hello world");
+const message = ref("Hello, World!");
+
+function reverseMessage() {
+  message.value = message.value.split("").reverse().join("");
+}
+
+function notify() {
+  alert("navigation was prevented.");
+}
 </script> -->
 
-<!-- 
-A "ref" is a reactive data source that stores a value. 
-Technically, we don't need to wrap the string with ref() in order to display it, 
-but we will see in the next example why it is needed if we ever intend to change the value.
-
-<번역>
-'ref'는 value를 저장하는 반응영 데이터 소스이다.
-기술적으로 문자열을 보여주기 위해 ref()로 래핑할 필요는 없지만,
-다음 예시를 통해 왜 value를 변경하기 위해 ref()가 필요한지 볼 것이다.
--->
+<style>
+button,
+a {
+  display: block;
+  margin-bottom: 1em;
+}
+</style>
