@@ -1,65 +1,71 @@
 <!--
-This example demonstrates handling user input with the v-on directive.
+Here we are reactively binding element attributes / properties to the state.
+The :title syntax is short for v-bind:title.
 -->
 
 <template>
-  <!-- 
-    [Note] we don't need .value inside templates
-    because refs are automatically 'unwrapped' in the template.
+  <p>
+    <span :title="message">
+      Hover your mouse over me for a few seconds to see my dynamically bound title!
+    </span>
+  </p>
+  
+  <!--
+  class bindings have special support for objects and arrays
+  in addition to plain strings
   -->
-  <h1>{{ message }}</h1>
+  <p :class="{red: isRed}" @click="toggleRed">
+    This should be red... but click me to toggle it.
+  </p>
 
-  <!-- Bind to a method/function. The @click syntax is short for v-on:click -->
-  <button @click="reverseMessage">Reverse Message</button>
-  <button @click="message += '!'">Append "!"</button>
-
-  <!-- 
-    Vue also provides modifiers for common tasks 
-    such as e.preventDefault() and e.stopPropagation().
+  <!--
+  style bindings also support object and arrays
+  여기서 중괄호 {}를 사용하는 것은 객체 리터럴을 생성하는데,
+  객체의 키는 스타일 속성이 되고, 값은 해당 스타일 속성에 바인딩할 데이터 변수가 됩니다
   -->
-  <a href="https://vuejs.org" @click.prevent="notify"
-    >A link with e.preventDefault()</a
-  >
+  <p :style="{color}" @click="toggleColor">
+    This should be green, and should toggle between green and blue on click.
+  </p>
 </template>
 
-<!-- < Options > -->
 <script>
 export default {
   data() {
     return {
-      message: "Hello, World!",
-    };
+      message: 'Hello World!',
+      isRed: true,
+      color: 'green'
+    }
   },
   methods: {
-    reverseMessage() {
-      this.message = this.message.split("").reverse().join("");
+    toggleRed() {
+      this.isRed = !this.isRed
     },
-    notify() {
-      alert("navigation was prevented.");
-    },
-  },
-};
+    toggleColor() {
+      this.color = this.color === 'green' ? 'blue' : 'green'
+    }
+  }
+}
 </script>
 
-<!-- < Composition > -->
-<!-- <script setup>
-import { ref } from "vue";
+<!--<script setup>-->
+<!--import {ref} from "vue";-->
 
-const message = ref("Hello, World!");
+<!--const message = ref('Hello World!');-->
+<!--const isRed = ref(true);-->
+<!--const color = ref('green')-->
 
-function reverseMessage() {
-  message.value = message.value.split("").reverse().join("");
-}
+<!--function toggleRed() {-->
+<!--  isRed.value = !isRed.value;-->
+<!--}-->
 
-function notify() {
-  alert("navigation was prevented.");
-}
-</script> -->
+<!--function toggleColor() {-->
+<!--  color.value = color.value === 'green' ? 'blue' : 'green'-->
+<!--}-->
+<!--</script>-->
 
 <style>
-button,
-a {
-  display: block;
-  margin-bottom: 1em;
+.red {
+  color: red;
 }
 </style>
